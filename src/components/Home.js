@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     API_URL, 
     API_KEY, 
@@ -16,25 +16,48 @@ import LoadMoreBtn from './elements/LoadMoreBtn';
 import Spinner from './elements/Spinner';
 
 // Custom hook
-import { useHomeFetch } from './hooks/useHomeFetch'
+import { useHomeFetch } from './hooks/useHomeFetch';
+
+import NoImage from './images/no_image.jpg';
 
 const Home = () => {
 
-    const [ { state, loading, error }, fetchMovies] = useHomeFetch();
-    console.log(state);
+    const [ 
+        { 
+            state: {movies, currentPage, totalPages, heroImage}, 
+            loading, 
+            error 
+        }, 
+        fetchMovies
+    ] = useHomeFetch();
+    const [serachTerm, setSearchTerm] = useState('');
 
     if(error) return <div>Something went worng ...</div>
-    if(!state.movies[0]) return <Spinner />;
-    
+    if(!movies[0]) return <Spinner />;
+
     return (
         <>
             <HeroImage 
-                image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.heroImage.backdrop_path}`}
-                title={state.heroImage.original_title}
-                text={state.heroImage.overview}
+                image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${heroImage.backdrop_path}`}
+                title={heroImage.original_title}
+                text={heroImage.overview}
             />
             <SearchBar />
-            <Grid />
+            <Grid header={serachTerm ? 'Search Result' : 'Popular Movies'}>
+                {movies.map(movie => (
+                    <MovieThumb
+                        key={movie.id}
+                        clickable
+                        image={
+                            movie.poster_path
+                                ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
+                                : NoImage
+                        }
+                        movieId={movie.id}
+                        movieName={movie.original_title}
+                        />
+                ))}
+            </Grid>
             <MovieThumb />
             <Spinner />
             <LoadMoreBtn />
