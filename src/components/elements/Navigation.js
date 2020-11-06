@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@reach/router';
+import PropTypes from 'prop-types';
 
 import { StyledNavigation } from '../styles/StyledNavigation';
 
@@ -14,6 +15,10 @@ const Navigation = ({ movie }) => (
         </div>
     </StyledNavigation>
 )
+
+Navigation.propTypes = {
+    movie: PropTypes.string,
+}
 
 export default Navigation;
 
