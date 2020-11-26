@@ -1,7 +1,7 @@
 # React Movie DB (RMDB)
 React Movies a single page application build using React and Hooks.
 
-## Using Gadget Valley
+## Using React Movies
 * Deployment URL: https://mohak-movies.netlify.app
 * Take a tour on the home page to see popular movies.
 * Search movies and click on movies to see cast.
